@@ -1,6 +1,6 @@
 # Brainboxes.IO-AA-Data-
 
-This is my project, creates the @AA(Data) commands
+This project creates the @AA(Data) commands
 
 ## Screenshots
 
