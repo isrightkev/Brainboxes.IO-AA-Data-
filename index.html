@@ -18,6 +18,7 @@ th, td {
 
 input[type="checkbox"] {
   transform: scale(2);
+  display: inline-block;
 }
 
 th.hidden {
@@ -30,6 +31,7 @@ th.hidden {
 <table class="my-table">
   <caption><p id="jsCommand">@0100</p></caption>
   <tr>
+    <th>DIO</th>
     <th>0</th>
     <th>1</th> 
     <th>2</th> 
@@ -40,24 +42,26 @@ th.hidden {
     <th>7</th> 
   </tr>
    <tr>
-    <th class="hidden1"><p id="T0">0</p></th>
-    <th class="hidden1"><p id="T1">0</p></th>
-    <th class="hidden1"><p id="T2">0</p></th>
-    <th class="hidden1"><p id="T3">0</p></th>
-    <th class="hidden1"><p id="T4">0</p></th>
-    <th class="hidden1"><p id="T5">0</p></th>
-    <th class="hidden1"><p id="T6">0</p></th>
-    <th class="hidden1"><p id="T7">0</p></th>
+    <th>Value</th>
+    <th><p id="T0">0</p></th>
+    <th><p id="T1">0</p></th>
+    <th><p id="T2">0</p></th>
+    <th><p id="T3">0</p></th>
+    <th><p id="T4">0</p></th>
+    <th><p id="T5">0</p></th>
+    <th><p id="T6">0</p></th>
+    <th><p id="T7">0</p></th>
   </tr>
-  <tr>
-    <td><input id="checkbox0" type="checkbox" style="display: inline-block;" onclick="TestHexa()"> </td>
-    <td><input id="checkbox1" type="checkbox" style="display: inline-block;" onclick="TestHexa()"> </td>
-    <td><input id="checkbox2" type="checkbox" style="display: inline-block;" onclick="TestHexa()"> </td>
-    <td><input id="checkbox3" type="checkbox" style="display: inline-block;" onclick="TestHexa()"> </td>
-    <td><input id="checkbox4" type="checkbox" style="display: inline-block;" onclick="TestHexa()"> </td>
-    <td><input id="checkbox5" type="checkbox" style="display: inline-block;" onclick="TestHexa()"> </td>
-    <td><input id="checkbox6" type="checkbox" style="display: inline-block;" onclick="TestHexa()"> </td>
-    <td><input id="checkbox7" type="checkbox" style="display: inline-block;" onclick="TestHexa()"> </td>
+  <tr onclick="TestHexa()">
+    <th>On/Off</th>
+    <td><input id="checkbox0" type="checkbox"> </td>
+    <td><input id="checkbox1" type="checkbox"> </td>
+    <td><input id="checkbox2" type="checkbox"> </td>
+    <td><input id="checkbox3" type="checkbox"> </td>
+    <td><input id="checkbox4" type="checkbox"> </td>
+    <td><input id="checkbox5" type="checkbox"> </td>
+    <td><input id="checkbox6" type="checkbox"> </td>
+    <td><input id="checkbox7" type="checkbox"> </td>
   </tr>
 </table>
  
@@ -65,34 +69,22 @@ th.hidden {
 <a href="https://github.com/isrightkev/Brainboxes.IO-AA-Data-">Code on github</a>
 
 <script>
+    const el = document.getElementById.bind(document);
+    const checkboxes = Array.from({length:8}, (_,i) => el("checkbox"+i)); 
+    const cells = Array.from({length:8}, (_,i) => el("T"+i)); 
+
+    function convertBinaryToHex(binary) {
+      return parseInt(binary, 2).toString(16).padStart(2, '0');
+    }
+
     function TestHexa() {
-        var CB0= document.getElementById("checkbox0");
-        var CB1= document.getElementById("checkbox1");
-        var CB2= document.getElementById("checkbox2");
-        var CB3= document.getElementById("checkbox3");
-        var CB4= document.getElementById("checkbox4");
-        var CB5= document.getElementById("checkbox5");
-        var CB6= document.getElementById("checkbox6");
-        var CB7= document.getElementById("checkbox7");
-        
-        const checkboxes = [CB0, CB1, CB2, CB3, CB4, CB5, CB6, CB7];
-        
-        for (let i = 0; i < checkboxes.length; i++) {
-          if (checkboxes[i].checked) {
-            document.getElementById(`T${i}`).innerHTML = "1";
-          } else {
-            document.getElementById(`T${i}`).innerHTML = "0";
-          }
+        var binary = "";
+        for (let i = 7; i > -1; i--) {
+          let val = checkboxes[i].checked ? "1" : "0";
+          cells[i].innerHTML = val;
+          binary += val;
         }
-        
-        var binary = document.getElementById("T7").innerHTML+document.getElementById("T6").innerHTML+document.getElementById("T5").innerHTML+document.getElementById("T4").innerHTML+document.getElementById("T3").innerHTML+document.getElementById("T2").innerHTML+document.getElementById("T1").innerHTML+document.getElementById("T0").innerHTML;
-        
-        function convertBinaryToHex(binary) {
-          var hex = parseInt(binary, 2).toString(16);
-          return hex.length < 2 ? "0" + hex.toUpperCase() : hex.toUpperCase();
-        }
-        
         var hex2 = convertBinaryToHex(binary);
-        document.getElementById("jsCommand").innerHTML = "@01"+hex2;
+        el("jsCommand").innerHTML = "@01"+hex2;
     }
 </script>
